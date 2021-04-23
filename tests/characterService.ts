@@ -61,8 +61,16 @@ describe('CharacterService Class', function () {
       const characterRepo = new GenericCharacterRepo(fakeInMemoryDataStore, fakeNetworkDataStore)
       const characterService = new CharacterService(characterRepo)
 
+      // cache miss first in in-memory data store
+      assert.strictEqual(fakeInMemoryDataStore.count(), 0)
+      assert.strictEqual(fakeInMemoryDataStore.getById(123), undefined)
+
       sinon.stub(fakeNetworkDataStore, 'getById').returns(Promise.resolve(fakeCharacter))
       const character = await characterService.getCharacterById(123)
+
+      // cache hit 
+      assert.strictEqual(fakeInMemoryDataStore.count(), 1)
+      assert.strictEqual(fakeInMemoryDataStore.getById(123).id,  123)
       assert.strictEqual(character.id, 123)
     })
   })

@@ -6,6 +6,7 @@ import NetworkDataStore from "./networkDataStore";
 class GenericCharacterRepo implements CharacterRepo {
     private inMemoryDataStore: InMemoryDataStore
     private networkDataStore: NetworkDataStore
+    private isFetchedAllOnce = false
 
     constructor(inMemoryDataStore: InMemoryDataStore, networkDataStore: NetworkDataStore) {
         this.inMemoryDataStore = inMemoryDataStore
@@ -13,7 +14,7 @@ class GenericCharacterRepo implements CharacterRepo {
     }
     async getAll(): Promise<Character[]> {
         let characters = this.inMemoryDataStore.getAll()
-        if (characters.length === 0) {
+        if (!this.isFetchedAllOnce) {
             return await this.refreshCache()
         } else {
             this.checkIfCacheDirty()
@@ -39,6 +40,7 @@ class GenericCharacterRepo implements CharacterRepo {
     async refreshCache(): Promise<Character[]> {
         const characters = await this.networkDataStore.getAll()
         characters.forEach(char => { this.inMemoryDataStore.insert(char) })
+        this.isFetchedAllOnce = true
         return characters
     }
 
