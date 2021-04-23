@@ -46,16 +46,16 @@ yarn test
 / GET / http://localhost:8080/api-reference
 ```
 
-### Get Array of all characters
+### Get ID of all characters
 
 ```http
 / GET / http://localhost:8080/characters
 ```
 
-### Get single character
+### Get character info by id
 
 ```http
-/ GET / http://localhost:8080/characters/{character-id}
+/ GET / http://localhost:8080/characters/{id}
 ```
 
 ## License
