@@ -1,0 +1,19 @@
+Elaboration on caching strategy
+
+The caching strategy will have to address two problems:
+
+1. Marvel API only returns a max of 100 records per request, therefore we will need caching to reduce latency in subsequent calls. 
+Few considerations come to mind when we are in need of caching. Here I am laying out a few potential solutions:
+- A NoSQL database i.e MongoDB
+- In-memory datastore i.e Memcached, Redis
+- Self-implemented in-memory key-value solution i.e Set, Map
+I decided to implement my own in-memory solution because of following reasons: 
+the data set is small enough to be stored in-memory, no complicated eviction policy is required (All-In-Cache policy is good enough), no persistence is required after server is off. 
+Furthermore, I designed the code structure in a way that allows more caching solution to be implemented easily in the future.
+
+2. Account for the fact that new Marvel character may be added
+When the data set of the characters is requested and loaded lazily, the system will asynchronously query Marvel API to check for character’s count to ensure latest information would be fetched in the subsequent call.
+
+Few potential improvement can be made with the code:
+- Some mixture of javascript and typescript, especially the express part (though I actually sometimes prefer that kind of mix)
+- If the first request to /characters failed because failure from Marvel API, there’s currently not being handled.
