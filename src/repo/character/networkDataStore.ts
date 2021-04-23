@@ -16,9 +16,9 @@ class NetworkDataStore implements DataStore {
                     params: this.buildApiCreds(i * 100)
                 }))
             }
+            console.info('freshly fetching all characters data')
             return await Promise.all(promises).then((responses) => {
                 responses.forEach(response => {
-                    console.log(response.data.data.results)
                     foundRecords = foundRecords.concat(response.data.data.results)
                 })
                 return foundRecords

@@ -13,7 +13,11 @@ class CharacterService {
     }
     async getCharacterById(id: number) {
         const character = await this.characterRepo.getById(id)
-        return character
+        return {
+            id: character.id,
+            name: character.name,
+            description: character.description
+        }
     }
     async count() {
         return await this.characterRepo.count()

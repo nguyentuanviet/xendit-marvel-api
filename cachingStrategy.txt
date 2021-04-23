@@ -7,12 +7,16 @@ Few considerations come to mind when we are in need of caching. Here I am laying
 - A NoSQL database i.e MongoDB
 - In-memory datastore i.e Memcached, Redis
 - Self-implemented in-memory key-value solution i.e Set, Map
+
 I decided to implement my own in-memory solution because of following reasons: 
 the data set is small enough to be stored in-memory, no complicated eviction policy is required (All-In-Cache policy is good enough), no persistence is required after server is off. 
-Furthermore, I designed the code structure in a way that allows more caching solution to be implemented easily in the future.
+Furthermore, the code is flexible enough to allow more caching solution to be implemented easily in the future if necessary.
+
+For /characters endpoint, data will be freshly pulled in the first time, then stored in memory (Map) for subsequent access.
+Same thing for /characters/:id, subsequent request to our api won’t need to reach Marvel server.
 
 2. Account for the fact that new Marvel character may be added
-When the data set of the characters is requested and loaded lazily, the system will asynchronously query Marvel API to check for character’s count to ensure latest information would be fetched in the subsequent call.
+When the data set of the characters is requested and loaded lazily (via endpoint /characters), the system will asynchronously query Marvel API to check for character’s count to ensure latest information would be fetched in the subsequent call.
 
 Few potential improvement can be made with the code:
 - Some mixture of javascript and typescript, especially the express part (though I actually sometimes prefer that kind of mix)
