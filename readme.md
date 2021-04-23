@@ -24,16 +24,17 @@ Update Marvel API private key and public key from [Marvel](https://developer.mar
 1. Create environment file named `.env` 
 2. In `.env` file, set `{MARVEL_PUBLIC_KEY}` and `{MARVEL_PRIVATE_KEY}`.
 
+3. Install
 ```bash
 yarn
 ```
 
-5. Start
+4. Start
 ```bash
 yarn start
 ```
 
-6. Run test
+5. Run test
 ```bash
 yarn test
 ```
